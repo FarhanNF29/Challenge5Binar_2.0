@@ -1,8 +1,11 @@
 package com.example.challenge3binar
 
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.core.app.ActivityCompat
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -16,6 +19,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        requestPermission()
 
         val navController = findNavController(R.id.fragmentContainerView)
 
@@ -42,6 +46,52 @@ class MainActivity : AppCompatActivity() {
                 }
                 else -> {
                     bottomNavigationView.visibility = View.GONE
+                }
+            }
+        }
+    }
+
+    private fun writeExternalStoragePermission() =
+        ActivityCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+                PackageManager.PERMISSION_GRANTED
+
+    private fun locationForegroundPermission() =
+        ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) ==
+                PackageManager.PERMISSION_GRANTED
+
+    private fun locationBackgroundPermission() =
+        ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_BACKGROUND_LOCATION) ==
+                PackageManager.PERMISSION_GRANTED
+
+    private fun requestPermission(){
+        var requestPermissionUser = mutableListOf<String>()
+        if(!writeExternalStoragePermission()){
+            requestPermissionUser.add(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        }
+
+        if(!locationForegroundPermission()){
+            requestPermissionUser.add(android.Manifest.permission.ACCESS_COARSE_LOCATION)
+        }
+
+        if(!locationBackgroundPermission()){
+            requestPermissionUser.add(android.Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+        }
+
+        if(requestPermissionUser.isNotEmpty()){
+            ActivityCompat.requestPermissions(this, requestPermissionUser.toTypedArray(), 0)
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if(requestCode == 0 && grantResults.isNotEmpty()){
+            for(i in grantResults.indices){
+                if (grantResults[i] == PackageManager.PERMISSION_GRANTED){
+                    Log.d("PermissionUser", "${permissions[i]} berhasil dijalankan")
                 }
             }
         }
