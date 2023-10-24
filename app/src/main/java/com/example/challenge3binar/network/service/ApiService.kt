@@ -26,19 +26,4 @@ interface ApiService {
     @POST("order")
     suspend fun createOrder(@Body orderRequest: OrderRequest): OrderResponse
 
-    companion object {
-        @JvmStatic
-        operator fun invoke(): ApiService {
-            val okHttpClient = OkHttpClient.Builder()
-                .connectTimeout(120, TimeUnit.SECONDS)
-                .readTimeout(120, TimeUnit.SECONDS)
-                .build()
-            val retrofit = Retrofit.Builder()
-                .baseUrl(BuildConfig.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(okHttpClient)
-                .build()
-            return retrofit.create(ApiService::class.java)
-        }
-    }
 }
