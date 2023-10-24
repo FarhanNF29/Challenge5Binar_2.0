@@ -6,10 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.challenge3binar.databinding.FragmentHomeBinding
+import com.example.challenge3binar.network.model.product.ProductItemResponse
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -23,7 +25,8 @@ class FragmentHome : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var sharedPreferences: SharedPreference
     private var isGrid = true
-    private var listMenu: ArrayList<DataMenu> = ArrayList()
+    private var listMenu: ArrayList<ProductItemResponse> = ArrayList()
+    private val viewModel: ViewModelFragmentHome by viewModels()
 
 
     override fun onCreateView(
@@ -40,6 +43,22 @@ class FragmentHome : Fragment() {
 
         sharedPreferences = SharedPreference(requireContext())
 
+        binding.cardNasi.setOnClickListener{
+            viewModel.getListProduct("burger")
+        }
+
+        binding.cardMie.setOnClickListener{
+            viewModel.getListProduct("mie")
+        }
+
+        binding.cardMinuman.setOnClickListener{
+            viewModel.getListProduct("minuman")
+        }
+
+        binding.cardSnack.setOnClickListener{
+            viewModel.getListProduct("snack")
+        }
+
 //        val bottomNav = requireActivity().findViewById<BottomNavigationView>(R.id.bot_nav)
 //        if (bottomNav != null){
 //            bottomNav.visibility = View.VISIBLE
@@ -52,19 +71,26 @@ class FragmentHome : Fragment() {
             DataMenu(R.drawable.ayam_bakar_ori, "Ayam Bakar", "RP. 45.000", "Ayam Bakar khas bakaran dengan sambal bakar yang dicampur aduk.","Jl. BSD Green Office Park Jl. BSD Grand Boulevard, Sampora, BSD, Kabupaten Tangerang, Banten 15345"),
             DataMenu(R.drawable.ayam_rica, "Ayam Rica-rica", "Rp. 55.000", "Ayam Rica-Rica khas sambal dengan kepedasan ekstra.","Jl. BSD Green Office Park Jl. BSD Grand Boulevard, Sampora, BSD, Kabupaten Tangerang, Banten 15345")
         )
-        listMenu.clear()
-        listMenu.addAll(listDataMenu)
-        setupRecyclerView(isGrid, listMenu)
+//        listMenu.clear()
+//        listMenu.addAll(listDataMenu)
+
         Log.e("IS_GRID", isGrid.toString())
         Log.e("IS_GRID_SHAREDPREF", sharedPreferences.isGrid.toString())
         setupActionChangeLayout()
 
+        viewModel.getListProduct()
 
-
-
+        viewModel.listProduct.observe(viewLifecycleOwner){
+            if (it.isNotEmpty()){
+                Log.i("Dataproduct", it.toString())
+                setupRecyclerView(isGrid, it as ArrayList<ProductItemResponse>)
+                listMenu.clear()
+                listMenu.addAll(it)
+            }
+        }
     }
 
-    fun setupRecyclerView(isGrid: Boolean, data: ArrayList<DataMenu>) {
+    fun setupRecyclerView(isGrid: Boolean, data: ArrayList<ProductItemResponse>) {
         val adapterMenu = Adapaters(data, isGrid)
         binding.recycleView.adapter = adapterMenu
 

@@ -13,7 +13,7 @@ data class OrderData(
     val itemName: String? = null,
 
     @ColumnInfo(name = "item_img")
-    val itemImage: Int? = null,
+    val itemImage: String? = null,
 
     @ColumnInfo(name = "item_price")
     val itemPrice: Int? = null,

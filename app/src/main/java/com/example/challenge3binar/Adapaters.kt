@@ -7,13 +7,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.view.menu.MenuView.ItemView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.challenge3binar.databinding.ListMenuLinearBinding
 import com.example.challenge3binar.databinding.ListMenuGridBinding
+import com.example.challenge3binar.network.model.product.ProductItemResponse
 
-class Adapaters(private val listMenu: ArrayList<DataMenu>, val isGrid:Boolean)
+class Adapaters(private val listMenu: ArrayList<ProductItemResponse>, val isGrid:Boolean)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
-    var onItemClick : ((DataMenu) -> Unit)? = null
+    var onItemClick : ((ProductItemResponse) -> Unit)? = null
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -49,19 +51,27 @@ class Adapaters(private val listMenu: ArrayList<DataMenu>, val isGrid:Boolean)
 }
 
 class GridMenuHolder(val binding: ListMenuGridBinding) : RecyclerView.ViewHolder(binding.root) {
-    fun onBind(data: DataMenu) {
-        binding.ivGambar.setImageResource(data.img)
-        binding.tvNamaMenu.text = data.nameMenu
-        binding.tvHargaMenu.text = data.hargaMenu
+    fun onBind(data: ProductItemResponse) {
+        Glide
+            .with(itemView)
+            .load(data.imageUrl)
+            .centerCrop()
+            .into(binding.ivGambar);
+        binding.tvNamaMenu.text = data.nama
+        binding.tvHargaMenu.text = "Rp. ${data.harga}"
+
     }
 }
 
 class LinearMenuHolder(val binding: ListMenuLinearBinding) : RecyclerView.ViewHolder(binding.root) {
-    fun onBind(data: DataMenu) {
-        binding.ivGambar.setImageResource(data.img)
-        binding.tvNamaMenu.text = data.nameMenu
-        binding.tvHargaMenu.text = data.hargaMenu
+    fun onBind(data: ProductItemResponse) {
+        Glide
+            .with(itemView)
+            .load(data.imageUrl)
+            .centerCrop()
+            .into(binding.ivGambar)
+        binding.tvNamaMenu.text = data.nama
+        binding.tvHargaMenu.text = "Rp. ${data.harga}"
     }
 }
-
 

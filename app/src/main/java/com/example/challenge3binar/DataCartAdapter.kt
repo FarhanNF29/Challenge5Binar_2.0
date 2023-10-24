@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 
 class DataCartAdapter(private val context: Context, private val dataCartDao: CartDao ) : RecyclerView.Adapter<DataCartAdapter.DataCartViewHolder>() {
     private var dataCartList: List<DataCart> = emptyList()
@@ -35,7 +36,11 @@ class DataCartAdapter(private val context: Context, private val dataCartDao: Car
         val currentDataCart = dataCartList[position]
 
         holder.itemNameTextView.text = currentDataCart.itemName
-        holder.itemImageView.setImageResource(currentDataCart.itemImage ?: R.drawable.ayam_rica)
+        Glide
+            .with(holder.itemView)
+            .load(currentDataCart.itemImage)
+            .centerCrop()
+            .into(holder.itemImageView);
         holder.itemQuantityTextView.text = "${currentDataCart.itemQuantity}"
 
         // Menghitung harga total dan mengupdate itemPriceTextView

@@ -18,7 +18,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.example.challenge3binar.databinding.FragmentDetailBinding
+import com.example.challenge3binar.network.model.product.ProductItemResponse
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
 
@@ -56,8 +58,8 @@ class FragmentDetail : Fragment() {
         setOnClickLocation()
 
         val bundle = Bundle()
-        val food = arguments?.getParcelable<DataMenu>("DataMenu")
-        val dataFood = food as DataMenu
+        val food = arguments?.getParcelable<ProductItemResponse>("DataMenu")
+        val dataFood = food as ProductItemResponse
 //        withViewModel()
         val detailViewModel = ViewModelProvider(this).get(MyViewModel::class.java)
 
@@ -81,13 +83,13 @@ class FragmentDetail : Fragment() {
             val jumlahAngka = binding.jumlahAngka.text.toString().toInt()
 
             if (jumlahAngka > 0) {
-                val numericPart = food?.hargaMenu?.replace("[^0-9]".toRegex(), "")
+                val numericPart = food?.harga?.toString()?.replace("[^0-9]".toRegex(), "")
                 if (numericPart != null) {
-                    val itemName = dataFood.nameMenu
+                    val itemName = dataFood.nama
                     val itemPrice = numericPart.toInt()
 
                     // Cek apakah item sudah ada di keranjang
-                    val existingCartItem = DatabaseCart.getInstance(requireContext()).simpleChartDao.getItemByName(itemName)
+                    val existingCartItem = DatabaseCart.getInstance(requireContext()).simpleChartDao.getItemByName(itemName.toString())
 
                     if (existingCartItem != null) {
                         // Item sudah ada, tambahkan jumlahnya
@@ -99,7 +101,7 @@ class FragmentDetail : Fragment() {
                             DataCart(
                                 0,
                                 itemName,
-                                dataFood.img,
+                                dataFood.imageUrl,
                                 itemPrice,
                                 jumlahAngka
                             )
@@ -124,16 +126,20 @@ class FragmentDetail : Fragment() {
             val deskripsi:TextView = binding.tvDeskripsiMenu
             val lokasi:TextView = binding.tvLokasiDetail
 
-            gambarMenu.setImageResource(food.img)
-            namaMenu.text = food.nameMenu
-            hargaMenu.text = food.hargaMenu
-            deskripsi.text = food.deskripsi
-            lokasi.text = food.lokasi
+            Glide
+                .with(requireActivity())
+                .load(food.imageUrl)
+                .centerCrop()
+                .into(binding.ivMenuDetail);
+            namaMenu.text = food.nama
+            hargaMenu.text = food.harga.toString()
+            deskripsi.text = food.detail
+            lokasi.text = food.alamatResto
         }
 
         detailViewModel.counter.observe(viewLifecycleOwner){
-            if (food?.hargaMenu != null){
-                val numericPart = food?.hargaMenu.replace("[^0-9]".toRegex(), "")
+            if (food?.harga != null){
+                val numericPart = food?.harga.toString().replace("[^0-9]".toRegex(), "")
                 binding.btnTambahKeranjang.text = "Tambah Ke Keranjang - Rp. ${it*numericPart.toInt()}"
             }
         }

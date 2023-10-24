@@ -15,7 +15,7 @@ data class DataCart(
     var itemName: String? = null,
 
     @ColumnInfo(name = "item_img")
-    var itemImage: Int? = null,
+    var itemImage: String? = null,
 
     @ColumnInfo(name = "item_price")
     var itemPrice: Int? = null,
