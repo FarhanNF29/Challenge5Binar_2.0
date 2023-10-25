@@ -1,5 +1,6 @@
 package com.example.challenge3binar
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -81,14 +82,22 @@ class RegisterActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            RegisterFirebase(email, password)
+            RegisterFirebase(email, password, name)
         }
     }
 
-    private fun RegisterFirebase(email: String, password: String) {
+    private fun RegisterFirebase(email: String, password: String, name: String) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) {
                 if (it.isSuccessful) {
+                    // Simpan data registrasi ke Shared Preferences
+                    val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+                    val editor = sharedPreferences.edit()
+                    editor.putString("username", name)
+                    editor.putString("email", email)
+                    editor.putString("password", password)
+                    editor.apply()
+
                     Toast.makeText(this, "Register Berhasil", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this, LoginActivity::class.java)
                     startActivity(intent)

@@ -58,7 +58,7 @@
             android:id="@+id/et_userName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="text"
+            android:inputType="none"
             android:hint="Masukan Username"
             android:text="FNF NOT FOUND"
             android:textSize="24sp"
@@ -70,18 +70,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Password"
+            android:text="Email"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="@+id/et_userName"
             app:layout_constraintTop_toBottomOf="@+id/et_userName" />
 
         <EditText
-            android:id="@+id/et_password"
+            android:id="@+id/et_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:hint="Masukan Password"
-            android:text="01010101010"
+            android:hint="Masukan Email"
+            android:text="fnfnotfound@hotmail.com"
+            android:inputType="none"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="@+id/tv_password"
             app:layout_constraintTop_toBottomOf="@+id/tv_password" />
@@ -91,17 +91,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Email"
+            android:text="Password"
             android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="@+id/et_password"
-            app:layout_constraintTop_toBottomOf="@+id/et_password" />
+            app:layout_constraintStart_toStartOf="@+id/et_email"
+            app:layout_constraintTop_toBottomOf="@+id/et_email" />
 
         <EditText
-            android:id="@+id/et_email"
+            android:id="@+id/et_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Masukan Email"
-            android:text="fnfnotfound@hotmail.com"
+            android:hint="Masukan Password"
+            android:inputType="textPassword"
+            android:text="010101010"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="@+id/tv_email"
             app:layout_constraintTop_toBottomOf="@+id/tv_email" />
@@ -113,8 +114,8 @@
             android:layout_marginTop="16dp"
             android:text="No. Telepon"
             android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="@+id/et_email"
-            app:layout_constraintTop_toBottomOf="@+id/et_email" />
+            app:layout_constraintStart_toStartOf="@+id/et_password"
+            app:layout_constraintTop_toBottomOf="@+id/et_password" />
 
         <EditText
             android:id="@+id/editTextPhone"
@@ -126,5 +127,15 @@
             android:text="01010101010"
             app:layout_constraintStart_toStartOf="@+id/tv_telepon"
             app:layout_constraintTop_toBottomOf="@+id/tv_telepon" />
+
+        <Button
+            android:id="@+id/btn_logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="LogOut"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextPhone" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
