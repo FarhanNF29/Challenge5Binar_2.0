@@ -80,7 +80,7 @@ class LoginActivity : AppCompatActivity() {
                     Toast.makeText(this, "Selamat datang $email", Toast.LENGTH_SHORT).show()
                     navigateToMainActivity()
                 } else {
-                    Toast.makeText(this, "${it.exception?.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Maaf Akun Anda Belum Terdaftar", Toast.LENGTH_SHORT).show()
                 }
             }
     }
