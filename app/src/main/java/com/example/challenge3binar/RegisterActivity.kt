@@ -42,7 +42,7 @@ class RegisterActivity : AppCompatActivity() {
 
             //Validasi Nama
             if(name.isEmpty()) {
-                binding.etUsername.error = "Nama Harus Diisi"
+                binding.etUsername.error = "Username Harus Diisi"
                 binding.etUsername.requestFocus()
                 return@setOnClickListener
             }
@@ -75,9 +75,16 @@ class RegisterActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            //Validasi Confirm password
+            if (confirmPass.isEmpty()) {
+                binding.etConfirmpasswordReg.error = "Confirm Password Harus Diisi"
+                binding.etConfirmpasswordReg.requestFocus()
+                return@setOnClickListener
+            }
+
             //Validasi password sama dengan confirm password
             if (password != confirmPass) {
-                Toast.makeText(this, "Password and Confirm Password do not match", Toast.LENGTH_SHORT)
+                Toast.makeText(this, "Password dan Confirm Password tidak sama", Toast.LENGTH_SHORT)
                     .show()
                 return@setOnClickListener
             }
