@@ -110,6 +110,8 @@ class FragmentDetail : Fragment() {
 
                     // Tampilkan pesan "Berhasil Menambahkan Ke Keranjang"
                     Toast.makeText(requireContext(), "Berhasil Menambahkan Ke Keranjang", Toast.LENGTH_SHORT).show()
+                    // Navigasi ke FragmentHome
+                    findNavController().navigate(R.id.action_fragmentDetail_to_fragmentHome)
                 }
             }
         }

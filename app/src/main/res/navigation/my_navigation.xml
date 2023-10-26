@@ -19,8 +19,8 @@
         android:label="fragment_detail"
         tools:layout="@layout/fragment_detail" >
         <action
-            android:id="@+id/action_fragmentDetail_to_fragmentKeranjang"
-            app:destination="@id/fragmentKeranjang" />
+            android:id="@+id/action_fragmentDetail_to_fragmentHome"
+            app:destination="@id/fragmentHome" />
     </fragment>
     <fragment
         android:id="@+id/fragmentKeranjang"
